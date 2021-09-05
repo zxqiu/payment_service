@@ -1,5 +1,10 @@
 package sm
 
+import (
+	"log"
+	"pay_gate/services/actions"
+)
+
 type EventType string
 
 type EventMetadata interface{}
@@ -9,21 +14,35 @@ type EventHandler interface {
 }
 
 const (
-	CreatePayment          EventType = "CreatePayment"
-	CreatePaymentSucceeded EventType = "CreatePaymentSucceeded"
-	CreatePaymentFailed    EventType = "CreatePaymentFailed"
-	AuthStart              EventType = "AuthStart"
-	AuthSucceeded          EventType = "AuthSucceeded"
-	AuthFailed             EventType = "AuthFailed"
+	ServerStartedEvent          EventType = "ServerStartedEvent"
+	CreatePaymentStartEvent     EventType = "CreatePaymentStartEvent"
+	CreatePaymentSucceededEvent EventType = "CreatePaymentSucceededEvent"
+	CreatePaymentFailedEvent    EventType = "CreatePaymentFailedEvent"
+	AuthStartEvent              EventType = "AuthStartEvent"
+	AuthSucceededEvent          EventType = "AuthSucceededEvent"
+	AuthFailedEvent             EventType = "AuthFailedEvent"
 )
 
-func TriggerEvent(event EventType, matadata EventMetadata) {
+func TriggerEvent(event EventType, matadata *EventMetadata) error {
+	log.Println("Triggering event", event)
+	var action actions.Action
 	switch event {
-	case CreatePayment:
+	case ServerStartedEvent:
+		log.Println("Server started")
+	case CreatePaymentStartEvent:
+		action = actions.CreatePaymentAction{}
+	case CreatePaymentSucceededEvent:
 		// call func
-	case CreatePaymentSucceeded:
+	case CreatePaymentFailedEvent:
 		// call func
-	case CreatePaymentFailed:
-		// call func
+	default:
+		return nil
 	}
+
+	if action != nil {
+		err := action.Execute(nil)
+		return err
+	}
+
+	return nil
 }
