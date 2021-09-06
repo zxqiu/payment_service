@@ -1,17 +1,17 @@
 package main
 
 import (
+	"log"
 	"net/http"
 
 	"pay_gate/services"
 	"pay_gate/services/actions"
-	"pay_gate/sm"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	sm.TriggerEvent(sm.ServerStartedEvent, nil)
+	log.Println("Server started")
 
 	router := gin.Default()
 	router.GET("/echo", getServerStatus)
