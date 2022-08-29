@@ -40,8 +40,7 @@ func TriggerEvent(event EventType, matadata *EventMetadata) error {
 	}
 
 	if action != nil {
-		err := action.Execute(nil)
-		return err
+		return action.Execute(nil)
 	}
 
 	return nil
