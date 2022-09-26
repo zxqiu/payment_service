@@ -3,6 +3,7 @@ package services
 import (
 	"log"
 	"pay_gate/services/actions"
+	"pay_gate/sm"
 
 	"github.com/gin-gonic/gin"
 )
@@ -11,7 +12,7 @@ func GetAction(actionType actions.ActionType) func(c *gin.Context) {
 	switch actionType {
 	case actions.CreatePaymentActionType:
 		return func(c *gin.Context) {
-			err := actions.CreatePaymentAction{}.Execute(nil)
+			err := sm.TriggerEvent(sm.CreatePaymentStartEvent, nil)
 			if err != nil {
 				log.Fatalln("failed to create payment")
 			}
