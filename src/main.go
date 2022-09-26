@@ -31,18 +31,18 @@ func getServerStatus(c *gin.Context) {
 
 	mysql_status := "running"
 
-	db, err := sql.Open("mysql", "zxqiu:1115@tcp(localhost:3306)/payment_service")
+	db, err := sql.Open("mysql", "zxqiu:12345@tcp(localhost:3306)/payment_service_db")
 	defer db.Close()
 
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		mysql_status = "down"
 	} else {
 		var version string
 		err = db.QueryRow("SELECT VERSION()").Scan(&version)
 
 		if err != nil {
-			log.Fatal(err)
+			log.Println(err)
 			mysql_status = "down"
 		}
 	}
