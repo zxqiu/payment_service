@@ -51,7 +51,7 @@ func getServerStatus(c *gin.Context) {
 }
 
 func initializeServer() {
-	initializeKafka()
+	//initializeKafka()
 }
 
 func initializeKafka() {
@@ -68,7 +68,6 @@ func initializeKafka() {
 
 	if err != nil {
 		log.Fatalf("Failed to create producer: %s\n", err)
-		os.Exit(1)
 	}
 
 }

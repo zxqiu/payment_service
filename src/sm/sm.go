@@ -26,21 +26,22 @@ const (
 func TriggerEvent(event EventType, matadata *EventMetadata) error {
 	log.Println("Triggering event", event)
 	var action actions.Action
+
 	switch event {
 	case ServerStartedEvent:
 		log.Println("Server started")
 	case CreatePaymentStartEvent:
+		actionMetadata := actions.CreatePaymentMetadata{
+			ActionID: "action ID placeholder",
+		}
 		action = actions.CreatePaymentAction{}
+		return action.Execute(actionMetadata)
 	case CreatePaymentSucceededEvent:
 		// call func
 	case CreatePaymentFailedEvent:
 		// call func
 	default:
 		return nil
-	}
-
-	if action != nil {
-		return action.Execute(nil)
 	}
 
 	return nil
